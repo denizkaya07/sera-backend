@@ -60,6 +60,8 @@ DATABASES = {
 AUTH_USER_MODEL = 'users.User'
 
 LANGUAGE_CODE = 'tr-tr'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
+USE_TZ = True
+USE_I18N = True
 
 STATIC_URL = 'static/'

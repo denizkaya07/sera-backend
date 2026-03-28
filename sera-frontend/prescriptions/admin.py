@@ -3,4 +3,4 @@ from .models import Prescription
 
 @admin.register(Prescription)
 class PrescriptionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
+    list_display = ('id', 'title', 'created_by', 'created_at')
