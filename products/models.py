@@ -40,3 +40,23 @@ class Product(models.Model):
         if self.added_by:
             return self.EKLEYEN_RENK.get(self.added_by.role, '#718096')
         return '#718096'
+
+
+class BkuUrun(models.Model):
+        bitki = models.CharField(max_length=255)
+        aktif_madde = models.CharField(max_length=255, blank=True, default='')
+        ruhsat_no = models.CharField(max_length=100, blank=True, default='')
+        urun_adi = models.CharField(max_length=255)
+        etken_madde = models.CharField(max_length=255, blank=True, default='')
+        firma = models.CharField(max_length=255, blank=True, default='')
+        doz = models.CharField(max_length=255, blank=True, default='')
+        zarali = models.CharField(max_length=255, blank=True, default='')
+        son_ilac_hasat = models.CharField(max_length=100, blank=True, default='')
+        created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+                ordering = ['bitki', 'urun_adi']
+                unique_together = ('ruhsat_no', 'bitki', 'zarali')
+
+    def __str__(self):
+                return f"{self.urun_adi} - {self.bitki}"
