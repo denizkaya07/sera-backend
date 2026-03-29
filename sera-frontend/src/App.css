@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -9,165 +7,325 @@ body {
   min-height: 100vh;
 }
 
-/* ─── Genel Container ─── */
-.container {
-  min-height: 100vh;
+.container { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+.dashboard-container { align-items: flex-start; padding-top: 40px; }
+
+.card { background: white; padding: 40px; border-radius: 15px; width: 340px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.dashboard-card { width: 100%; max-width: 680px; text-align: left; }
+
+.card input, .card select { width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; outline: none; }
+.card input:focus, .card select:focus { border-color: #667eea; }
+
+.card button { width: 100%; padding: 11px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: background 0.2s, opacity 0.2s; }
+.card button:hover:not(:disabled) { background: #5a67d8; }
+.card button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.toggle { margin-top: 15px; color: #667eea; cursor: pointer; font-size: 14px; }
+.toggle:hover { text-decoration: underline; }
+.error { color: #e53e3e; font-size: 13px; margin-bottom: 10px; }
+.success { color: #38a169; font-size: 13px; margin-bottom: 10px; }
+.muted { color: #888; font-size: 14px; }
+
+.dashboard-header { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.dashboard-header h1 { margin: 0; font-size: 22px; }
+.welcome { margin: 0; color: #555; font-size: 14px; flex: 1; }
+
+.logout-btn { width: auto !important; padding: 7px 16px !important; font-size: 13px !important; background: #e53e3e !important; }
+.logout-btn:hover:not(:disabled) { background: #c53030 !important; }
+
+hr { border: none; border-top: 1px solid #eee; margin: 16px 0; }
+
+.tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.tab { padding: 8px 20px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 14px; color: #555; transition: all 0.2s; }
+.tab.active { background: #667eea; color: white; border-color: #667eea; font-weight: bold; }
+.tab:hover:not(.active) { background: #f0f0f0; }
+
+.add-btn { width: auto !important; padding: 10px 20px !important; background: #48bb78 !important; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 16px; }
+.add-btn:hover { background: #38a169 !important; }
+
+.farm-form-card { background: #f7f8fc; border: 1px solid #e2e6f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.farm-form-card h3 { margin: 0 0 16px; font-size: 16px; color: #2d3748; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: 12px; color: #666; font-weight: bold; }
+.form-group input, .form-group select, .form-group textarea { padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; margin-bottom: 0; width: 100%; }
+
+.form-buttons { display: flex; gap: 8px; margin-top: 16px; }
+.form-buttons button { width: auto !important; padding: 10px 24px !important; }
+.cancel-btn { background: #e2e8f0 !important; color: #555 !important; }
+.cancel-btn:hover { background: #cbd5e0 !important; }
+
+.farm-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.farm-card { background: #f7f8fc; border: 1px solid #e2e6f0; border-radius: 10px; padding: 14px 16px; }
+.farm-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.farm-card-header strong { flex: 1; font-size: 15px; color: #2d3748; }
+.farm-type-badge { background: #e9d8fd; color: #553c9a; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+.farm-card-details { display: flex; flex-wrap: wrap; gap: 10px; font-size: 13px; color: #555; }
+
+.delete-btn { width: auto !important; padding: 5px 12px !important; font-size: 12px !important; background: #e53e3e !important; color: white; border: none; border-radius: 6px; cursor: pointer; }
+.delete-btn:hover { background: #c53030 !important; }
+
+.role-badge { margin-left: 8px; background: #667eea; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+
+.prescription-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.prescription-item { background: #f7f8fc; border: 1px solid #e2e6f0; border-radius: 10px; padding: 14px 16px; }
+.prescription-item strong { font-size: 15px; color: #2d3748; }
+.prescription-item p { margin: 6px 0 0; font-size: 13px; color: #555; }
+.prescription-date { display: block; margin-top: 6px; font-size: 11px; color: #aaa; }
+
+.search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+.search-bar input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; margin-bottom: 0; }
+.search-bar button { width: auto !important; padding: 10px 20px !important; }
+
+.search-result { background: #f7f8fc; border: 1px solid #e2e6f0; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.search-result strong { font-size: 15px; }
+.search-result textarea { width: 100%; margin-top: 10px; padding: 8px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; resize: vertical; }
+.invite-btn { width: auto !important; padding: 8px 20px !important; margin-top: 8px; background: #48bb78 !important; }
+.invite-btn:hover { background: #38a169 !important; }
+
+.invitation-card { background: #f7f8fc; border: 1px solid #e2e6f0; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+.invitation-card.received { border-left: 4px solid #667eea; }
+.inv-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.inv-status { font-size: 13px; font-weight: bold; margin-left: auto; }
+.inv-message { font-size: 13px; color: #555; font-style: italic; margin: 4px 0 8px; }
+
+.farm-checkboxes { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.farm-checkbox { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.farm-checkbox input { width: auto; margin-bottom: 0; }
+
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+
+.customer-farm-card {
+  background: #f7f8fc;
+  border: 1px solid #e2e6f0;
+  border-left: 4px solid #667eea;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.customer-farm-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-}
-
-.dashboard-container {
-  align-items: flex-start;
-  padding-top: 40px;
-}
-
-/* ─── Kart ─── */
-.card {
-  background: white;
-  padding: 40px;
-  border-radius: 15px;
-  width: 340px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.dashboard-card {
-  width: 100%;
-  max-width: 640px;
-  text-align: left;
-}
-
-/* ─── Input & Button ─── */
-.card input {
-  width: 100%;
-  padding: 10px 12px;
   margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+}
+
+.customer-farm-header strong {
+  font-size: 16px;
+  color: #2d3748;
+}
+
+.notes-section h4 {
+  margin: 0 0 8px;
   font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s;
+  color: #4a5568;
 }
 
-.card input:focus {
-  border-color: #667eea;
-}
-
-.card button {
-  width: 100%;
-  padding: 11px;
-  background: #667eea;
-  color: white;
-  border: none;
+.note-item {
+  background: white;
+  border: 1px solid #e2e6f0;
   border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 15px;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.card button:hover:not(:disabled) {
-  background: #5a67d8;
-}
-
-.card button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* ─── Auth Extras ─── */
-.toggle {
-  margin-top: 15px;
-  color: #667eea;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.toggle:hover {
-  text-decoration: underline;
-}
-
-.error {
-  color: #e53e3e;
-  font-size: 13px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-/* ─── Dashboard ─── */
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  padding: 10px 12px;
   margin-bottom: 8px;
 }
 
-.dashboard-header h1 {
-  margin: 0;
-  font-size: 22px;
-}
-
-.welcome {
-  margin: 0;
-  color: #555;
+.note-item p {
+  margin: 0 0 4px;
   font-size: 14px;
-  flex: 1;
+  color: #2d3748;
 }
 
-.logout-btn {
-  width: auto !important;
-  padding: 7px 16px !important;
-  font-size: 13px !important;
-  background: #e53e3e !important;
+.note-meta {
+  font-size: 11px;
+  color: #aaa;
 }
 
-.logout-btn:hover:not(:disabled) {
-  background: #c53030 !important;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid #eee;
-  margin: 16px 0;
-}
-
-.muted {
-  color: #888;
-  font-size: 14px;
-}
-
-/* ─── Reçete Listesi ─── */
-.prescription-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.note-input {
   margin-top: 10px;
 }
 
-.prescription-item {
+.note-input textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 6px;
+}
+
+.add-note-btn {
+  width: auto !important;
+  padding: 8px 20px !important;
+  background: #667eea !important;
+  font-size: 13px !important;
+}
+
+.add-note-btn:hover { background: #5a67d8 !important; }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-bottom: 12px;
+  width: auto !important;
+}
+
+.farm-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.farm-detail-header h2 { margin: 0; font-size: 20px; }
+
+.clickable { cursor: pointer; transition: box-shadow 0.2s; }
+.clickable:hover { box-shadow: 0 2px 8px rgba(102,126,234,0.2); }
+
+.open-btn {
+  font-size: 12px;
+  color: #667eea;
+  margin-left: auto;
+  font-weight: bold;
+}
+
+.customer-group { margin-bottom: 20px; }
+.customer-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e6f0;
+}
+.customer-group-header strong { font-size: 16px; }
+
+.prescription-form-card {
+  background: #f7f8fc;
+  border: 1px solid #e2e6f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.prescription-form-card h3 { margin: 0 0 16px; font-size: 16px; color: #2d3748; }
+.prescription-form-card h4 { margin: 0 0 8px; font-size: 14px; color: #4a5568; }
+
+.prescription-item-row {
+  background: white;
+  border: 1px solid #e2e6f0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.item-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.item-number { font-weight: bold; font-size: 14px; color: #667eea; }
+
+.remove-item-btn {
+  width: auto !important;
+  padding: 3px 10px !important;
+  font-size: 12px !important;
+  background: #e53e3e !important;
+}
+
+.add-item-btn {
+  width: auto !important;
+  padding: 8px 16px !important;
+  background: #48bb78 !important;
+  margin-top: 4px;
+  font-size: 13px !important;
+}
+
+.prescription-detail-card {
   background: #f7f8fc;
   border: 1px solid #e2e6f0;
   border-radius: 10px;
   padding: 14px 16px;
+  margin-bottom: 10px;
 }
 
-.prescription-item strong {
-  font-size: 15px;
-  color: #2d3748;
+.prescription-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
-.prescription-item p {
-  margin: 6px 0 0;
+.prescription-detail-header strong { font-size: 15px; color: #2d3748; }
+
+.prescription-item-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: white;
+  border-radius: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.item-num { font-weight: bold; color: #667eea; min-width: 20px; }
+.item-type { background: #e9d8fd; color: #553c9a; padding: 1px 8px; border-radius: 10px; font-size: 11px; }
+.item-product { font-weight: 500; color: #2d3748; }
+.item-doz { color: #718096; }
+.item-note { color: #a0aec0; font-style: italic; }
+
+.note-item { background: white; border: 1px solid #e2e6f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.note-item p { margin: 0 0 4px; font-size: 14px; color: #2d3748; }
+.note-meta { font-size: 11px; color: #aaa; }
+.note-input { margin-top: 10px; }
+.note-input textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; resize: vertical; margin-bottom: 6px; }
+.add-note-btn { width: auto !important; padding: 8px 20px !important; background: #667eea !important; font-size: 13px !important; }
+.add-note-btn:hover { background: #5a67d8 !important; }
+
+.product-card {
+  background: #f7f8fc;
+  border: 1px solid #e2e6f0;
+  border-left: 4px solid #667eea;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.product-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.product-header strong { font-size: 15px; color: #2d3748; flex: 1; }
+
+.product-type-badge {
+  background: #bee3f8;
+  color: #2b6cb0;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.product-owner {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.product-detail {
   font-size: 13px;
   color: #555;
-}
-
-.prescription-date {
-  display: block;
-  margin-top: 6px;
-  font-size: 11px;
-  color: #aaa;
+  margin: 2px 0;
 }

@@ -14,4 +14,7 @@ urlpatterns = [
 
     # Reçete işlemleri
     path('api/', include('prescriptions.urls')),
+    path('api/', include('farms.urls')),
+    path('api/', include('invitations.urls')),
+    path('api/', include('products.urls')),
 ]

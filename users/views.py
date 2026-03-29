@@ -27,7 +27,7 @@ def register(request):
         return Response({'error': 'Bu kullanıcı adı zaten alınmış.'}, status=status.HTTP_400_BAD_REQUEST)
 
     user = User.objects.create_user(username=username, password=password)
-    if role in ['engineer', 'farmer', 'dealer']:
+    if role in ['engineer', 'farmer', 'dealer', 'producer']:
         user.role = role
         user.save()
 

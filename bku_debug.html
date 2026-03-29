@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitki Koruma &#220;r&#252;nleri Veri Tabanı</title>
+
+    <link href="/Content/css?v=vzWj57oXX3IQI--sKAjRbBrj2Xa89iRkJP3-WLYJZEk1" rel="stylesheet"/>
+
+
+ 
+
+</head>
+<body>
+
+        <div class="container-fluid">
+            <div class="container text-left">
+                <img class="img-thumbnail col-md-8" style="background-color: transparent; border: none; padding: 0px" src="/Content/Resimler/tarim_header4.png" />
+
+                <ul class="list-inline">
+                    <li><span class="glyphicon glyphicon-globe"></span> <a href="/Kultur/Turkce">Türkçe</a>&nbsp;&nbsp;|</li>
+                    <li><a href="/Kultur/Ingilizce">English</a></li>
+                </ul>
+            </div>
+
+            <nav class="navbar navbar-default container">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand">Bk&#252; Veri Tabanı</a>
+
+                    </div>
+
+                    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false">
+
+
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a class="btn btn-link" style="text-align: left" href="/Duyuru/Bulten">
+                                    <span class="glyphicon glyphicon-home">&ensp;</span>Ana Sayfa
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="btn btn-link" style="text-align: left" href="/Kullanim/TavsiyeAlternatif">
+                                    <span class="glyphicon glyphicon-search">&ensp;</span>Tavsiye Alternatif
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a class="btn btn-link" style="text-align: left" href="/Kullanim/TavsiyeArama">
+                                    <span class="glyphicon glyphicon-search">&ensp;</span>Tavsiye Arama
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="btn btn-link" style="text-align: left" href="/Arama/Index">
+                                    <span class="glyphicon glyphicon-search">&ensp;</span>Arama Motoru
+                                </a>
+                            </li>
+
+
+                            <li class="dropdown">
+
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-tags">&ensp;</span> Ruhsat <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="/BKURuhsat/Index">
+                                            <span class="glyphicon glyphicon-search">&ensp;</span>Ruhsat Detaylı Arama
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/BKUGeciciTavsiyeAlanlar/GeciciTavsiyeIndeks">
+                                            <span class="glyphicon glyphicon-exclamation-sign">&ensp;</span>Ge&#231;ici Tavsiyeler
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/MRLOrani/Index">
+                                            <span class="glyphicon glyphicon-stats">&ensp;</span>MRL Oranları
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/BKURuhsat/RafOmruSure">
+                                            <span class="glyphicon glyphicon-time">&ensp;</span>Raf &#214;mr&#252; S&#252;re
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/BiyolojikMucadeleEtmeniRuhsat/BiyolojikMucadeleEtmeniRuhsatListe"><span class="glyphicon glyphicon-fire">&ensp;</span>Biyolojik Mücadele Etmeni Ruhsatları</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+
+
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-book">&ensp;</span> Dok&#252;man <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    <li>
+                                        <a href="/YararlanilacakKaynak/Liste">
+                                            <span class="glyphicon glyphicon-book">&ensp;</span>Kaynaklar
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/AktifMadde/YasakliKisitliExcelFileList">
+                                            <span class="glyphicon glyphicon-download">&ensp;</span>Yasaklı Aktif Maddeler
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+
+
+
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-pencil">&ensp;</span> İletişim <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    <li>
+                                        <a href="/GorusOneri/Create">
+                                            <span class="glyphicon glyphicon-comment">&ensp;</span>G&#246;r&#252;ş-&#214;neri
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/GorusOneri/SizdenGelenler">
+                                            <span class="glyphicon glyphicon-envelope">&ensp;</span>Sizden Gelenler
+                                        </a>
+                                    </li>
+
+
+                                    <li>
+                                        <a href="/Duyuru/DuyuruListe">
+                                            <span class="glyphicon glyphicon-bullhorn">&ensp;</span>Duyurular
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/Yenilik/Index">
+                                            <span class="glyphicon glyphicon-flash">&ensp;</span>Yenilikler
+                                        </a>
+                                    </li>
+
+
+                                    <li>
+                                        <a href="/Home/MobilUygulama">
+                                            <span class="glyphicon glyphicon-phone">&ensp;</span> Mobil Uygulamalarımız
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <h2 class="container">Bitki Detay</h2>
+
+
+            <div class="container body-content">
+                
+
+
+<link href="/Content/select2.css" rel="stylesheet" />
+<link href="/Content/datatables/css?v=Fdm9ITl1ydpAGK0xtAtLBirSlAb2FMdx15Gt2L-Xq0w1" rel="stylesheet"/>
+
+<h3>DOMATES (SERA)</h3>
+
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            LatinceAdı
+        </dt>
+
+        <dd>
+            
+        </dd>
+
+        <dt>
+            Aktif Madde Grupları
+        </dt>
+
+        <dd>
+            <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/575'>#8- Hydroxyquinoline</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/7'>#Abamectin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/8'>#Acequinocyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/10'>#Acibenzolar s methyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/12'>#Acrinathrin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/566'>#Ally Isothiocyanate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/16'>#Ametoctradin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/24'>#Azadirachtin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/27'>#Azoxystrobin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/590'>#Bacillus amyloliquefaciens</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/580'>#Bacillus subtilis</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/34'>#Bacillus thuringiensis</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/43'>#Bakır hidroksit</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/48'>#Bakır oksiklorid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/50'>#Bakır sülfat</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/588'>#Bakır sülfat (tribasic)</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/53'>#Bazik bakır sülfat</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/617'>#Beauveria bassiana PPRI 5339</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/56'>#Benalaxyl-m</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/65'>#Boscalid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/69'>#Bupirimate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/621'>#Burkholderia rinojensis strain A396</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/71'>#Captan</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/75'>#Chlorantraniliprole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/605'>#COS-OGA</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/91'>#Cyantraniliprole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/90'>#Cyazofamid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/95'>#Cyflufenamid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/560'>#Cyflumetofen</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/98'>#Cymoxanil</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/99'>#Cypermethrin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/101'>#Cyprodinil</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/102'>#Cyromazine</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/104'>#Dazomet</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/105'>#Deltamethrin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/113'>#Difenoconazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/564'>#Diğer</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/118'>#Dimethomorph</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/119'>#Dimethyl disulfide</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/124'>#Emamectin benzoate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/637'>#Ethandinitril</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/127'>#Ethephon</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/132'>#Etoxazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/133'>#Etridiazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/134'>#Famoxadone</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/136'>#Fenamiphos</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/137'>#Fenazaquin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/140'>#Fenhexamid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/562'>#Fenpyrazamine</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/567'>#Feromon+Tuzak</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/147'>#Flonicamid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/150'>#Fluazinam</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/151'>#Flubendiamide</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/153'>#Fludioxonil</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/157'>#Fluopyram</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/607'>#Flupyradifurone</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/543'>#Flutriafol</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/165'>#Fluxapyroxad</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/168'>#Formetanate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/169'>#Fosetyl-al</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/170'>#Fosthiazate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/172'>#Gibberellic acid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/174'>#Gliocladium catenulatum strain gl21</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/182'>#Hexythiazox</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/185'>#Hymexazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/192'>#Indoxacarb</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/199'>#Isopyrazam</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/608'>#Kalsiyum polisülfür</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/203'>#Kresoxim-methyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/204'>#Kükürt </a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/644'>#Laminarin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/210'>#Malathion</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/213'>#Mandipropamid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/221'>#Metaflumizone</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/222'>#Metalaxyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/223'>#Metalaxyl-m</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/225'>#Metam potasium</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/226'>#Metam sodium</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/233'>#Methoxyfenozide</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/234'>#Metiram</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/236'>#Metrafenone</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/239'>#Milbemectin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/244'>#Naa (naphthalene acetic acide)</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/245'>#Nad (naphtahalene acetamide)</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/631'>#Orange oil (Portakal yağı)</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/619'>#Oxathiapiprolin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/253'>#Paecilomyces lilacinus</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/254'>#Penconazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/584'>#Penthiopyrad</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/261'>#Phosphorous Acid (mono ve di-potasyum tuzları)</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/265'>#Pirimicarb</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/266'>#Pirimiphos-methyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/271'>#Propamocarb-HCI</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/277'>#Proquinazid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/280'>#Pseudomonas fluorescens strain</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/282'>#Pyraclostrobin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/284'>#Pyrethrin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/285'>#Pyridaben</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/286'>#Pyridalyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/288'>#Pyrimethanil</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/289'>#Pyriproxyfen</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/635'>#Pythium oligandrum M1</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/297'>#Reynoutria spp.</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/303'>#Spinetoram</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/304'>#Spinosad</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/306'>#Spiromesifen</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/307'>#Spirotetramat</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/540'>#Sulfoxaflor</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/312'>#Tau fluvalinate</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/313'>#Tea tree oil</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/314'>#Tebuconazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/316'>#Tebufenpyrad</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/594'>#Terpenoid</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/324'>#Tetraconazole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/331'>#Thiophanate-methyl</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/341'>#Trichoderma aspellerum</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/342'>#Trichoderma gamsii ırk</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/343'>#Trichoderma harzianum rifai </a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/346'>#Trifloxystrobin</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/347'>#Triflumizole</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/628'>#Tuzak</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/355'>#Yağ asitlerinin potasyum tuzları</a> <a style='color: #555555; font-weight: bold;' href= '../../AktifMaddeGrup/Details/359'>#Zoxamide</a> 
+        </dd>
+
+    </dl>
+
+</div>
+<br />
+
+
+<form action="/Bitki/Details/68" data-ajax="true" data-ajax-complete="dataTableSinif.tabloyuTekrarDoldur(true)" data-ajax-method="POST" id="form0" method="post"><input name="__RequestVerificationToken" type="hidden" value="zqkcMpXeJw7OhRIKyzG-mn3bc6nZ1TUTMJLBGt-9XnzSJA0t5F_qUdeileAKQahObKT1tiyKh77ps-8P3fMBSF5i6Y_b9LXdBiLJ5DzrgcM1" /><input data-val="true" data-val-number="The field Numarası must be a number." data-val-required="The Numarası field is required." id="Filtre_Numaras_" name="Filtre.Numarası" type="hidden" value="68" />        <div class="row">
+
+            <div class="col-xs-12 col-lg-7">
+                <select class="form-control" id="ddlCars" multiple="multiple" name="Filtre.SeçiliAramalar" placeholder="Zararlı, Aktif Madde Grup veya Ruhsat" style="width: 100%"></select>
+            </div>
+
+            <div class="form-group col-xs-8 col-md-3 col-lg-3">
+                <select class="form-control" data-val="true" data-val-number="The field RuhsatGrupNumarası must be a number." data-val-required="The RuhsatGrupNumarası field is required." id="Filtre_RuhsatGrupNumaras_" name="Filtre.RuhsatGrupNumarası"><option value="0">RUHSAT GRUBU SE&#199;İNİZ</option>
+<option value="6">Akarisit</option>
+<option value="60">Akarisit + Nematisit</option>
+<option value="14">Bitki Aktivat&#246;r&#252;</option>
+<option value="1">Bitki Gelişim D&#252;zenleyicisi (BGD)</option>
+<option value="59">Biyolojik Fungisit</option>
+<option value="62">Biyolojik Fungisit + BGD</option>
+<option value="9">Biyolojik İnsektisit</option>
+<option value="19">Biyolojik M&#252;cadele Etmeni</option>
+<option value="55">Biyolojik M&#252;cadele Etmeni (Entomopatojen Nematod)</option>
+<option value="20">Cezbedici </option>
+<option value="35">Cezbedici + Tuzak</option>
+<option value="30">Defoliant (Yaprak D&#246;k&#252;c&#252;)</option>
+<option value="12">Defoliant (Yaprak D&#246;k&#252;c&#252;-Koza A&#231;tırıcı )</option>
+<option value="25">Demirli Bileşik</option>
+<option value="64">Desikant</option>
+<option value="23">Feromon</option>
+<option value="4">Feromon+Tuzak</option>
+<option value="21">Fumigant</option>
+<option value="17">Fungisit</option>
+<option value="51">Fungisit + Akarisit</option>
+<option value="52">Fungisit + BGD</option>
+<option value="22">Herbisit</option>
+<option value="53">Herbisit + BGD</option>
+<option value="66">Herbisit + Defoliant</option>
+<option value="56">Herbisit + Desikant</option>
+<option value="8">İnsektisit</option>
+<option value="16">İnsektisit+Akarisit</option>
+<option value="69">Kairomon</option>
+<option value="7">Mollussisit</option>
+<option value="2">Nematisit</option>
+<option value="50">Nematisit+Fungisit</option>
+<option value="26">Nematisit+İnsektisit</option>
+<option value="10">Rodentisit</option>
+<option selected="selected" value="24">Tuzak</option>
+</select>                
+            </div>
+
+
+            <div class="col-xs-4 col-lg-2">
+                <button type="submit" accept="true" class="btn btn-primary btn-block">
+                    <span class="glyphicon glyphicon-search"></span>&nbsp; <b>Bul</b>
+                </button>
+            </div>
+
+        </div>
+</form>        <br />
+        <label style="font-weight: bold"><span class="glyphicon glyphicon-asterisk"></span>  : Entegre M&#252;cadele Programlarında Hastalık, Zararlı ve Yabancı Otlara Karşı Kullanılacak Bitki Koruma &#220;r&#252;n&#252;</label>
+        <br />
+    <br />
+    <table id="tablo" class="table table-striped bg-info dt-responsive" style="width: 100%">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+<br />
+<br />
+<br />
+
+
+
+
+                <div class="navbar-fixed-bottom text-left ozel-bottom">
+
+                    <div class="container" style="opacity: .6;">
+                        T&#252;m Hakları Saklıdır &copy; 2015-2026 | T.C. Tarım ve Orman Bakanlığı Bitki Koruma &#220;r&#252;nleri Daire Başkanlığı tarafından yapılmıştır.
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    <script src="/bundles/jquery?v=FVs3ACwOLIVInrAl5sdzR2jrCDmVOWFbZMY6g6Q0ulE1"></script>
+
+    <script src="/bundles/bootstrap?v=gaS8ksF0U8YYRyqGHTWvkSNiIzbtTYXNIS5RdRDV8O01"></script>
+
+    
+    <script src="/bundles/unobtrusiveajax?v=Xuam6TWPhcGt1QT7p5fexG3T-XZA9hjh88zJ89jkDQQ1"></script>
+
+
+    <script src="/bundles/select2?v=o0ow8MLcBD_MvrSxY7QJr8Q_5Uc3w8F86dvh37-fy5U1"></script>
+
+
+    <script src="/bundles/datatablesTemelParcalar?v=aUjvWF8Lv664zE_2d5xGB-41vKFlWZpOhnpM_pQaFP81"></script>
+
+
+    <script src="/bundles/datatables?v=FUy_E6G3KKd-PvTRZlqZ1gOQao36COl4xGhEgkVK0L81"></script>
+
+
+    <script src="/Scripts/TypeScriptKodlari/tarihMetodlari.js"></script>
+    <script src="/Scripts/TypeScriptKodlari/Tavsiye/bitkiDetay.js"></script>
+
+
+</body>
+</html>
+
+
+
+

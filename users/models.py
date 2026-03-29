@@ -5,7 +5,8 @@ class User(AbstractUser):
     ROLE_CHOICES = (
         ('engineer', 'Mühendis'),
         ('farmer', 'Çiftçi'),
-        ('dealer', 'Bayii'),
+        ('dealer', 'Bayi'),
+        ('producer', 'Üretici Firma'),
     )
 
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, blank=True, default='')

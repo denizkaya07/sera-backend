@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'users',
     'farms',
     'prescriptions',
+    'invitations',
+    'products',
 ]
 
 MIDDLEWARE = [
