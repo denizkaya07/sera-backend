@@ -14,6 +14,66 @@ const ProtectedRoute = ({ children }) => getToken() ? children : <Navigate to="/
 const ROLE_LABELS = { farmer: "Ciftci", engineer: "Muhendis", dealer: "Bayi", producer: "Uretici Firma" };
 const ROLE_COLORS = { dealer: "#3182ce", engineer: "#38a169", producer: "#dd6b20", farmer: "#805ad5" };
 const EMPTY_FARM = { name: '', isletme_tipi: 'sera', il: '', ilce: '', mahalle: '', sera_tipi: '', buyukluk: '', urun_tipi: '', urun_cesidi: '' };
+
+// PDF blob getir (ortak yardımcı)
+const fetchPrescriptionBlob = async (prescriptionId) => {
+  const token = getToken();
+  const res = await fetch(`${API}/api/prescriptions/${prescriptionId}/pdf/`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('PDF olusturulamadi.');
+  return res.blob();
+};
+
+// PDF indir
+const downloadPrescriptionPDF = async (prescriptionId, title) => {
+  try {
+    const blob = await fetchPrescriptionBlob(prescriptionId);
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `recete_${prescriptionId}_${(title || 'recete').replace(/\s+/g, '_')}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    alert(err.message || 'PDF indirilemedi.');
+  }
+};
+
+// WhatsApp ile paylaş (Web Share API — telefonda çalışır)
+const shareViaWhatsApp = async (prescriptionId, title) => {
+  try {
+    const blob = await fetchPrescriptionBlob(prescriptionId);
+    const fileName = `recete_${prescriptionId}_${(title || 'recete').replace(/\s+/g, '_')}.pdf`;
+    const file = new File([blob], fileName, { type: 'application/pdf' });
+
+    // Telefon / tablet: Web Share API dosya paylaşımı destekleniyorsa
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ title, files: [file] });
+    } else {
+      // Masaüstü: dosyayı indir, WhatsApp Web'i aç
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+      setTimeout(() => {
+        window.open(
+          `https://web.whatsapp.com/`,
+          '_blank'
+        );
+        alert('PDF indirildi. WhatsApp Web acildi — dosyayi surukleyip birakin veya atasman olarak gonderin.');
+      }, 800);
+    }
+  } catch (err) {
+    if (err.name !== 'AbortError') alert(err.message || 'Paylasim basarisiz.');
+  }
+};
 const EMPTY_ITEM = { sira: 1, uygulama_tipi: 'sulamayla', product: '', urun_adi: '', doz: '', not_field: '' };
 const EMPTY_PRODUCT = { name: '', urun_tipi: 'ilac', etken_madde: '', doz: '', kullanim_amaci: '', uretici: '', ozellikler: '' };
 
@@ -173,39 +233,123 @@ const FarmCard = ({ farm, onDelete, onClick }) => (
   </div>
 );
 
+const TODAY = new Date().toISOString().split('T')[0];
+const emptyItem = () => ({ urun_adi: '', doz: '', sera_toplam: '', uygulama_tipi: '', not_field: '', product: '' });
+const emptySession = (sira) => ({ sira, tarih: TODAY, items: [emptyItem()] });
+
 const PrescriptionForm = ({ farm, onSave, onCancel }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [items, setItems] = useState([{ ...EMPTY_ITEM }]);
+  const [sessions, setSessions] = useState([emptySession(1)]);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const token = getToken();
 
+  // DB'den ürünleri çek
   useEffect(() => {
     fetch(`${API}/api/products/`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json()).then(data => { if (Array.isArray(data)) setProducts(data); });
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setProducts(data); });
   }, [token]);
 
-  const setItem = (idx, key, val) => {
-    const updated = [...items];
-    updated[idx] = { ...updated[idx], [key]: val };
-    setItems(updated);
+  // Session güncelle
+  const updateSession = (si, key, val) => {
+    const updated = [...sessions];
+    updated[si] = { ...updated[si], [key]: val };
+    setSessions(updated);
   };
 
-  const addItem = () => setItems([...items, { ...EMPTY_ITEM, sira: items.length + 1 }]);
-  const removeItem = (idx) => setItems(items.filter((_, i) => i !== idx).map((it, i) => ({ ...it, sira: i + 1 })));
+  // Sera toplamı hesapla (ml/da cinsinden dozaj × alan)
+  const calcSeraToplam = (dozVal, buyukluk) => {
+    const doz = parseFloat(dozVal);
+    if (!isNaN(doz) && doz > 0 && buyukluk) {
+      return (doz * buyukluk / 1000).toFixed(2) + ' ml';
+    }
+    return null;
+  };
+
+  // Item güncelle
+  const updateItem = (si, ii, key, val) => {
+    const updated = [...sessions];
+    updated[si].items[ii] = { ...updated[si].items[ii], [key]: val };
+
+    // Dozaj değişince sera_toplam otomatik hesapla
+    if (key === 'doz') {
+      const toplam = calcSeraToplam(val, farm.buyukluk);
+      if (toplam) updated[si].items[ii].sera_toplam = toplam;
+    }
+
+    // İlaç/Gübre adı DB'deki ürünle eşleşince önerilen dozu doldur
+    if (key === 'urun_adi') {
+      const matched = products.find(p => p.name.toLowerCase() === val.toLowerCase());
+      if (matched) {
+        updated[si].items[ii].product = matched.id;
+        // Önerilen doz sadece alan boşsa ya da başka üründen doluysa doldur
+        if (matched.doz) {
+          updated[si].items[ii].doz = matched.doz;
+          const toplam = calcSeraToplam(matched.doz, farm.buyukluk);
+          if (toplam) updated[si].items[ii].sera_toplam = toplam;
+        }
+      } else {
+        // Elle yazılmış, product id'yi temizle
+        updated[si].items[ii].product = '';
+      }
+    }
+
+    setSessions(updated);
+  };
+
+  // Ürün seçilince (dropdown'dan) tüm alanları doldur
+  const selectProduct = (si, ii, productId) => {
+    const p = products.find(pr => pr.id === parseInt(productId));
+    if (!p) return;
+    const updated = [...sessions];
+    updated[si].items[ii] = {
+      ...updated[si].items[ii],
+      product: p.id,
+      urun_adi: p.name,
+      doz: p.doz || updated[si].items[ii].doz,
+    };
+    const toplam = calcSeraToplam(p.doz, farm.buyukluk);
+    if (toplam) updated[si].items[ii].sera_toplam = toplam;
+    setSessions(updated);
+  };
+
+  const addSession = () => setSessions([...sessions, emptySession(sessions.length + 1)]);
+  const removeSession = (si) => setSessions(sessions.filter((_, i) => i !== si).map((s, i) => ({ ...s, sira: i + 1 })));
+
+  const addItem = (si) => {
+    const updated = [...sessions];
+    updated[si].items.push(emptyItem());
+    setSessions(updated);
+  };
+  const removeItem = (si, ii) => {
+    const updated = [...sessions];
+    updated[si].items = updated[si].items.filter((_, i) => i !== ii);
+    setSessions(updated);
+  };
 
   const handleSave = async () => {
     if (!title.trim()) { setError("Recete basligi zorunludur."); return; }
     const payload = {
       title, description, farm: farm.id,
-      items: items.map((it, idx) => ({
-        sira: idx + 1, uygulama_tipi: it.uygulama_tipi,
-        product: it.product || null, urun_adi: it.urun_adi, doz: it.doz, not_field: it.not_field,
+      sessions: sessions.map((s, si) => ({
+        sira: si + 1,
+        tarih: s.tarih || null,
+        items: s.items.map((item, ii) => ({
+          sira: ii + 1,
+          urun_adi: item.urun_adi,
+          doz: item.doz,
+          sera_toplam: item.sera_toplam,
+          uygulama_tipi: item.uygulama_tipi,
+          not_field: item.not_field,
+          product: item.product ? parseInt(item.product) : null,
+        })),
       })),
     };
     const res = await fetch(`${API}/api/prescriptions/`, {
-      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     });
     const data = await res.json();
@@ -216,56 +360,138 @@ const PrescriptionForm = ({ farm, onSave, onCancel }) => {
   return (
     <div className="prescription-form-card">
       <h3>Recete Yaz — {farm.name}</h3>
-      <div className="form-group" style={{marginBottom:'12px'}}>
-        <label>Recete Basligi *</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ornek: Agustos Gubre Programi" />
+      <div className="form-grid" style={{ marginBottom: 16 }}>
+        <div className="form-group">
+          <label>Recete Basligi *</label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ornek: Agustos Gubre Programi" />
+        </div>
+        <div className="form-group">
+          <label>Aciklama</label>
+          <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Opsiyonel" />
+        </div>
       </div>
-      <div className="form-group" style={{marginBottom:'16px'}}>
-        <label>Aciklama</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} />
-      </div>
-      <h4>Uygulamalar</h4>
-      {items.map((item, idx) => (
-        <div key={idx} className="prescription-item-row">
-          <div className="item-row-header">
-            <span className="item-number">{idx + 1}. Uygulama</span>
-            {items.length > 1 && <button className="remove-item-btn" onClick={() => removeItem(idx)}>Kaldir</button>}
+
+      {sessions.map((session, si) => (
+        <div key={si} className="session-block">
+          <div className="session-header">
+            <span className="session-title">{session.sira}. Sulama</span>
+            {farm.buyukluk && <span className="session-alan">🌿 {farm.buyukluk} m²</span>}
+            <input
+              type="date"
+              className="session-date-input"
+              value={session.tarih}
+              onChange={(e) => updateSession(si, 'tarih', e.target.value)}
+            />
+            <button className="add-ilac-btn" onClick={() => addItem(si)}>+ Ilac Ekle</button>
+            {sessions.length > 1 && (
+              <button className="remove-session-btn" onClick={() => removeSession(si)}>Kaldir</button>
+            )}
           </div>
-          <div className="form-grid">
-            <div className="form-group"><label>Uygulama Tipi</label>
-              <select value={item.uygulama_tipi} onChange={(e) => setItem(idx, 'uygulama_tipi', e.target.value)}>
-                <option value="sulamayla">Sulamayla</option>
-                <option value="yapraktan">Yapraktan</option>
-                <option value="topraktan">Topraktan</option>
-              </select>
-            </div>
-            <div className="form-group"><label>Urun (Veritabanindan)</label>
-              <select value={item.product} onChange={(e) => {
-                const p = products.find(p => p.id === parseInt(e.target.value));
-                setItem(idx, 'product', e.target.value);
-                if (p) setItem(idx, 'urun_adi', p.name);
-              }}>
-                <option value="">Secin</option>
-                {products.map(p => (
-                  <option key={p.id} value={p.id} style={{color: p.renk || '#333'}}>{p.name} ({p.urun_tipi})</option>
+
+          <div className="session-table-wrapper">
+            <table className="session-table">
+              <thead>
+                <tr>
+                  <th>Ilac / Gubre Adi</th>
+                  <th>Dozaj (ml/da)</th>
+                  <th>Sera Toplaminа {farm.buyukluk ? `(${farm.buyukluk} m²)` : ''}</th>
+                  <th>Uygulama</th>
+                  <th>Not</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {session.items.map((item, ii) => (
+                  <tr key={ii}>
+                    <td className="ilac-cell">
+                      {/* DB'den hızlı seçim */}
+                      <select
+                        className="tbl-select product-quick-select"
+                        value={item.product || ''}
+                        onChange={(e) => selectProduct(si, ii, e.target.value)}
+                      >
+                        <option value="">— DB'den sec —</option>
+                        {products.map(p => (
+                          <option key={p.id} value={p.id}>
+                            [{p.urun_tipi === 'ilac' ? 'Ilac' : p.urun_tipi === 'gubre' ? 'Gubre' : 'Diger'}] {p.name}
+                          </option>
+                        ))}
+                      </select>
+                      {/* Ya da elle yaz */}
+                      <input
+                        className="tbl-input"
+                        placeholder="Veya ilac / gubre adi yazin..."
+                        value={item.urun_adi}
+                        onChange={(e) => updateItem(si, ii, 'urun_adi', e.target.value)}
+                      />
+                      {/* Seçilen ürün bilgisi */}
+                      {item.product && (() => {
+                        const p = products.find(pr => pr.id === parseInt(item.product));
+                        return p && p.etken_madde ? (
+                          <span className="product-hint">⚗ {p.etken_madde}</span>
+                        ) : null;
+                      })()}
+                    </td>
+                    <td>
+                      <input
+                        className="tbl-input"
+                        placeholder="Ornek: 150"
+                        value={item.doz}
+                        onChange={(e) => updateItem(si, ii, 'doz', e.target.value)}
+                      />
+                      {item.product && (() => {
+                        const p = products.find(pr => pr.id === parseInt(item.product));
+                        return p && p.doz ? (
+                          <span className="product-hint">Onerilen: {p.doz}</span>
+                        ) : null;
+                      })()}
+                    </td>
+                    <td>
+                      <input
+                        className="tbl-input sera-toplam-input"
+                        placeholder={farm.buyukluk ? 'Dozaj girince otomatik hesaplanir' : 'Sera Toplaminа'}
+                        value={item.sera_toplam}
+                        onChange={(e) => updateItem(si, ii, 'sera_toplam', e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        className="tbl-select"
+                        value={item.uygulama_tipi}
+                        onChange={(e) => updateItem(si, ii, 'uygulama_tipi', e.target.value)}
+                      >
+                        <option value=""></option>
+                        <option value="yapraktan">Yapraktan</option>
+                        <option value="damla_sulama">Damla Sulama</option>
+                        <option value="sulamayla">Sulamayla</option>
+                        <option value="topraktan">Topraktan</option>
+                        <option value="yagmurlama">Yagmurlama</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        className="tbl-input"
+                        placeholder="Not..."
+                        value={item.not_field}
+                        onChange={(e) => updateItem(si, ii, 'not_field', e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      {session.items.length > 1 && (
+                        <button className="sil-btn" onClick={() => removeItem(si, ii)}>Sil</button>
+                      )}
+                    </td>
+                  </tr>
                 ))}
-              </select>
-            </div>
-            <div className="form-group"><label>Urun Adi (Manuel)</label>
-              <input value={item.urun_adi} onChange={(e) => setItem(idx, 'urun_adi', e.target.value)} placeholder="Veya manuel yaz" />
-            </div>
-            <div className="form-group"><label>Doz</label>
-              <input value={item.doz} onChange={(e) => setItem(idx, 'doz', e.target.value)} placeholder="Ornek: 2 lt/100 lt su" />
-            </div>
-            <div className="form-group" style={{gridColumn: '1 / -1'}}><label>Not</label>
-              <input value={item.not_field} onChange={(e) => setItem(idx, 'not_field', e.target.value)} placeholder="Ekstra not" />
-            </div>
+              </tbody>
+            </table>
           </div>
         </div>
       ))}
-      <button className="add-item-btn" onClick={addItem}>+ Uygulama Ekle</button>
+
+      <button className="add-session-btn" onClick={addSession}>+ Sulama Ekle</button>
       {error && <p className="error">{error}</p>}
-      <div className="form-buttons" style={{marginTop:'16px'}}>
+      <div className="form-buttons" style={{ marginTop: 16 }}>
         <button onClick={handleSave}>Receteyi Kaydet</button>
         <button className="cancel-btn" onClick={onCancel}>Iptal</button>
       </div>
@@ -330,9 +556,39 @@ const FarmDetail = ({ farm, onBack, canWrite }) => {
             <strong>{p.title}</strong>
             <span className="prescription-date">{new Date(p.created_at).toLocaleDateString("tr-TR")}</span>
             <span className="muted" style={{fontSize:'12px'}}>Yazan: {p.created_by_username}</span>
+            <button className="pdf-btn" title="PDF olarak indir" onClick={() => downloadPrescriptionPDF(p.id, p.title)}>⬇ PDF</button>
+            <button className="wa-btn" title="WhatsApp ile paylas" onClick={() => shareViaWhatsApp(p.id, p.title)}>📤 WA</button>
           </div>
-          {p.description && <p style={{fontSize:'13px', color:'#555'}}>{p.description}</p>}
-          {p.items && p.items.map(item => (
+          {p.description && <p style={{fontSize:'13px', color:'#555', margin:'4px 0'}}>{p.description}</p>}
+
+          {/* Yeni format: sessions */}
+          {p.sessions && p.sessions.length > 0 && p.sessions.map(session => (
+            <div key={session.id} className="session-view-block">
+              <div className="session-view-header">
+                <span>{session.sira}. Sulama</span>
+                {session.tarih && <span className="session-view-date">{new Date(session.tarih).toLocaleDateString("tr-TR")}</span>}
+              </div>
+              <table className="session-view-table">
+                <thead>
+                  <tr><th>Ilac / Gubre Adi</th><th>Dozaj (ml/da)</th><th>Sera Toplaminа</th><th>Uygulama</th><th>Not</th></tr>
+                </thead>
+                <tbody>
+                  {session.items && session.items.map(item => (
+                    <tr key={item.id}>
+                      <td>{item.product_name || item.urun_adi || '-'}</td>
+                      <td>{item.doz || '-'}</td>
+                      <td>{item.sera_toplam || '-'}</td>
+                      <td>{item.uygulama_tipi || '-'}</td>
+                      <td>{item.not_field || ''}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+
+          {/* Eski format: doğrudan items */}
+          {(!p.sessions || p.sessions.length === 0) && p.items && p.items.map(item => (
             <div key={item.id} className="prescription-item-display">
               <span className="item-num">{item.sira}.</span>
               <span className="item-type">{item.uygulama_tipi}</span>
@@ -773,6 +1029,8 @@ const Dashboard = () => {
                     <strong>{p.title}</strong>
                     {p.farm_name && <span className="muted" style={{fontSize:'12px'}}>— {p.farm_name}</span>}
                     <span className="prescription-date">{new Date(p.created_at).toLocaleDateString("tr-TR")}</span>
+                    <button className="pdf-btn" title="PDF olarak indir" onClick={() => downloadPrescriptionPDF(p.id, p.title)}>⬇ PDF</button>
+                    <button className="wa-btn" title="WhatsApp ile paylas" onClick={() => shareViaWhatsApp(p.id, p.title)}>📤 WA</button>
                   </div>
                   {p.items && p.items.map(item => (
                     <div key={item.id} className="prescription-item-display">
